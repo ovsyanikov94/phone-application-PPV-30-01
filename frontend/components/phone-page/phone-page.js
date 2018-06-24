@@ -1,7 +1,8 @@
 "use strict";
 
+import PhoneCatalogue from '../phone-catalogue/phone-catalogue';
 
-class PhonePage{
+export default class PhonePage{
 
     constructor( options ){
 
