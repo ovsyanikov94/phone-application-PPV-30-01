@@ -11,6 +11,14 @@ module.exports = {
         'filename': 'index.js'
     },
     devtool: "source-map",
-    watch: true
+    watch: true,
+    module: {
+        rules: [
+            {
+                test: /\.hbs$/,
+                loader: "handlebars-loader"
+            }
+        ]
+    }
 
 };
