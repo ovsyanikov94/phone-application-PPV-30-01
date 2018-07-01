@@ -18,7 +18,26 @@ export default class PhoneViewer extends Component{
         this._phone = phone;
         this._render();
 
+        this._element.addEventListener('click' , this._onButtonBack.bind(this) );
+
+
     }
+
+    _onButtonBack( event ){
+
+
+        if( event.target.matches('[data-element="button-back"]') ){
+
+            let backEvent = new CustomEvent('backEvent');
+
+            this._phone = null;
+
+            this._element.dispatchEvent(backEvent);
+
+        }//if
+
+
+    }//_onButtonBack
 
     _render(){
 
