@@ -14,33 +14,26 @@ export default class PhoneCatalogue extends Component{
 
         this._render();
 
-        this._element.addEventListener( 'click' , this._onPhoneSelected.bind(this) );
-
+        this.on('click' , this._onPhoneSelected.bind(this) ,"[data-element='phone']");
 
     }
 
     _onPhoneSelected( event ){
 
-
         let target = event.target;
 
-        let parent = target.closest("[data-element='phone']");
+        if( target.matches("img") || target.matches("a")) {
 
-        if( parent ){
+            let phoneSelectedEvent = new CustomEvent('phoneSelected',{
+                detail: {
+                    phoneID: target.closest('[data-element="phone"]').dataset.phoneId
+                }
+            });
 
-            if( target.matches("img") || target.matches("a")) {
-
-                let phoneSelectedEvent = new CustomEvent('phoneSelected',{
-                    detail: {
-                        phoneID: parent.dataset.phoneId
-                    }
-                });
-
-                this._element.dispatchEvent(phoneSelectedEvent);
-
-            }//if
+            this._element.dispatchEvent(phoneSelectedEvent);
 
         }//if
+
 
     }//_onPhoneSelected
 

@@ -8,7 +8,6 @@ export default class PhoneViewer extends Component{
     constructor( options ){
 
         super( options );
-
         this._phone = null;
 
     }
@@ -16,25 +15,35 @@ export default class PhoneViewer extends Component{
     setPhone( phone ){
 
         this._phone = phone;
+
         this._render();
 
-        this._element.addEventListener('click' , this._onButtonBack.bind(this) );
+        this._thumbnail = this._element.querySelector('#phone-thumbnail');
 
+        this.on('click' , this._onButtonBack.bind(this) , '[data-element="button-back"]');
+        this.on('click' , this._changeThumbnail.bind(this) , '.phone-thumbs img');
 
     }
+
+    _changeThumbnail( event ){
+
+
+        let src = event.target.getAttribute('src');
+
+        if( src !== this._thumbnail.getAttribute('src') ){
+            this._thumbnail.setAttribute('src' , src);
+        }//if
+
+    }//_changeThumbnail
 
     _onButtonBack( event ){
 
 
-        if( event.target.matches('[data-element="button-back"]') ){
+        let backEvent = new CustomEvent('backEvent');
 
-            let backEvent = new CustomEvent('backEvent');
+        this._phone = null;
 
-            this._phone = null;
-
-            this._element.dispatchEvent(backEvent);
-
-        }//if
+        this._element.dispatchEvent(backEvent);
 
 
     }//_onButtonBack

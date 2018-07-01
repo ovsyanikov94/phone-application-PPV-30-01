@@ -3,12 +3,13 @@
 import PhoneCatalogue from '../phone-catalogue/phone-catalogue';
 import PhoneViewer from '../phone-viewer/phone-viewer';
 import httpService from '../../services/http-service';
+import Component from "../base/component";
 
-export default class PhonePage{
+export default class PhonePage extends Component{
 
     constructor( options ){
 
-        this._element = options.element;
+        super( options );
 
         httpService
             .send(`phones/phones.json`)
@@ -21,8 +22,7 @@ export default class PhonePage{
                     phones: phones
                 });
 
-                this._phoneCatalogue._element.addEventListener('phoneSelected' , this._onPhoneSelected.bind(this) )
-
+                this.on('phoneSelected' , this._onPhoneSelected.bind(this) , '[data-component="phone-catalogue"]' );
 
             } )
             .catch( error => {
@@ -34,8 +34,7 @@ export default class PhonePage{
             element: document.querySelector('[data-component="phone-viewer"]'),
         });
 
-        this._phoneViwer._element.addEventListener('backEvent' , this._onButtonBack.bind(this) )
-
+        this.on('backEvent' , this._onButtonBack.bind(this) , '[data-component="phone-viewer"]' );
 
     }//construct
 
