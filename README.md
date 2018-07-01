@@ -2,4 +2,4 @@
 # git clone ...
 # npm i
 # npm start
-# run public/index.html
+# run public/index.html in web-storm
