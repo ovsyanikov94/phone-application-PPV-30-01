@@ -10,6 +10,18 @@ export default class Component{
 
     }
 
+    on( eventName , callback , cssSelector ){
+
+        let elements = this._element.querySelectorAll(cssSelector);
+
+        elements.forEach( el => {
+
+            el.addEventListener( eventName , callback );
+
+        } );
+
+    }
+
     hide(){
         this._element.classList.add('js-hidden');
     }//hide
