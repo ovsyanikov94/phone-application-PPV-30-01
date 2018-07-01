@@ -21,9 +21,10 @@ export default class PhoneViewer extends Component{
         this._thumbnail = this._element.querySelector('#phone-thumbnail');
 
         this.on('click' , this._onButtonBack.bind(this) , '[data-element="button-back"]');
+        this.on('click' , this._onButtonAddToCart.bind(this) , '[data-element="button-add-to-cart"]');
         this.on('click' , this._changeThumbnail.bind(this) , '.phone-thumbs img');
 
-    }
+    }//setPhone
 
     _changeThumbnail( event ){
 
@@ -47,6 +48,19 @@ export default class PhoneViewer extends Component{
 
 
     }//_onButtonBack
+
+    _onButtonAddToCart(){
+
+        let addToCartEvent = new CustomEvent('addToCartEvent', {
+            detail: {
+                'name': this._phone.name,
+                'id'  : this._phone.id
+            }
+        });
+
+        this._element.dispatchEvent(addToCartEvent);
+
+    }//_onButtonAddToCart
 
     _render(){
 

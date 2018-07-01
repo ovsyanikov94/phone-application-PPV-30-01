@@ -4,6 +4,8 @@ import PhoneCatalogue from '../phone-catalogue/phone-catalogue';
 import PhoneViewer from '../phone-viewer/phone-viewer';
 import httpService from '../../services/http-service';
 import Component from "../base/component";
+import PhoneCart from "../phone-cart/phone-cart";
+
 
 export default class PhonePage extends Component{
 
@@ -34,7 +36,13 @@ export default class PhonePage extends Component{
             element: document.querySelector('[data-component="phone-viewer"]'),
         });
 
+        this._phoneCart = new PhoneCart({
+            element: document.querySelector('[data-component="phone-cart"]'),
+            title: 'Shopping Cart'
+        });
+
         this.on('backEvent' , this._onButtonBack.bind(this) , '[data-component="phone-viewer"]' );
+        this.on('addToCartEvent' , this._onAddPhoneToCart.bind(this) , '[data-component="phone-viewer"]' );
 
     }//construct
 
@@ -45,6 +53,12 @@ export default class PhonePage extends Component{
         this._phoneCatalogue.show();
 
     }//_onButtonBack
+
+    _onAddPhoneToCart( event ){
+
+        this._phoneCart.addPhone( event.detail );
+
+    }//_onAddPhoneToCart
 
     async _onPhoneSelected( event ){// event === CustomEvent('phoneSelected')
 
