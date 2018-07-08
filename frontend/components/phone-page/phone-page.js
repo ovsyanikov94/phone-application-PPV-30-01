@@ -15,7 +15,7 @@ export default class PhonePage extends Component{
         super( options );
 
         httpService
-            .send(`phones/phones.json`)
+            .send(`http://localhost:5012/PPV-30-01/phonesApplication/phones/phones.json`)
             .then( phones => {
 
                 this._phoneCatalogue = new PhoneCatalogue({
@@ -71,15 +71,14 @@ export default class PhonePage extends Component{
 
         try{
 
-            let phones = await httpService.send(`phones/phones.json`);
+            let response = await httpService.send(`searchPhones.php?search=${searchString}`);
 
-            let resultPhones = phones.filter( ( phone )=> {
-
-                return phone.name.toLowerCase().indexOf( searchString.toLowerCase() ) !== -1;
-
-            } );
-
-            this._phoneCatalogue.setPhones( resultPhones );
+            if(response.code === 200){
+                this._phoneCatalogue.setPhones( response.data );
+            }//if
+            else{
+                console.log("RESPONSE: " , response);
+            }//else
 
         }//try
         catch(ex){
