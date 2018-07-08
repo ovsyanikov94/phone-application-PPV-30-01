@@ -14,8 +14,6 @@ export default class PhoneCatalogue extends Component{
 
         this._render();
 
-        this.on('click' , this._onPhoneSelected.bind(this) ,"[data-element='phone']");
-
     }
 
     _onPhoneSelected( event ){
@@ -42,6 +40,17 @@ export default class PhoneCatalogue extends Component{
         this._element.innerHTML = template({
             'phonesArray': this._phones
         });
-    }
+
+        this.on('click' , this._onPhoneSelected.bind(this) ,"[data-element='phone']");
+
+    }//_render
+
+
+    setPhones( phones ){
+
+        this._phones = phones;
+        this._render();
+
+    }//setPhones
 
 };

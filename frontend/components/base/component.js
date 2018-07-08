@@ -10,6 +10,7 @@ export default class Component{
 
     }
 
+    //  'click'   ,  function ,  '.row'
     on( eventName , callback , cssSelector ){
 
         let elements = this._element.querySelectorAll(cssSelector);

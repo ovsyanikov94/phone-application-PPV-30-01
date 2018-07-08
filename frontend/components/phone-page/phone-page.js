@@ -5,6 +5,7 @@ import PhoneViewer from '../phone-viewer/phone-viewer';
 import httpService from '../../services/http-service';
 import Component from "../base/component";
 import PhoneCart from "../phone-cart/phone-cart";
+import SearchComponent from "../search-component/search-component";
 
 
 export default class PhonePage extends Component{
@@ -16,8 +17,6 @@ export default class PhonePage extends Component{
         httpService
             .send(`phones/phones.json`)
             .then( phones => {
-
-                debugger;
 
                 this._phoneCatalogue = new PhoneCatalogue({
                     element: document.querySelector('[data-component="phone-catalogue"]'),
@@ -41,8 +40,14 @@ export default class PhonePage extends Component{
             title: 'Shopping Cart'
         });
 
+        this._searchComponent = new SearchComponent({
+            element: document.querySelector('[data-component="search-component"]'),
+            title: 'Search phones:'
+        });
+
         this.on('backEvent' , this._onButtonBack.bind(this) , '[data-component="phone-viewer"]' );
         this.on('addToCartEvent' , this._onAddPhoneToCart.bind(this) , '[data-component="phone-viewer"]' );
+        this.on('searchEvent' , this._onSearchEvent.bind(this) , '[data-component="search-component"]' );
 
     }//construct
 
@@ -59,6 +64,32 @@ export default class PhonePage extends Component{
         this._phoneCart.addPhone( event.detail );
 
     }//_onAddPhoneToCart
+
+    async _onSearchEvent( event ){
+
+        let searchString = event.detail.searchString;
+
+        try{
+
+            let phones = await httpService.send(`phones/phones.json`);
+
+            let resultPhones = phones.filter( ( phone )=> {
+
+                return phone.name.toLowerCase().indexOf( searchString.toLowerCase() ) !== -1;
+
+            } );
+
+            this._phoneCatalogue.setPhones( resultPhones );
+
+        }//try
+        catch(ex){
+
+            console.log('EXCEPTION: ' , ex);
+
+        }//catch
+
+
+    }//_onSearchEvent
 
     async _onPhoneSelected( event ){// event === CustomEvent('phoneSelected')
 
